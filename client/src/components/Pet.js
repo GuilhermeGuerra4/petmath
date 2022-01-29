@@ -73,6 +73,7 @@ export default function Pet(props) {
         img1.width = img1.height * calculateProportion(img1);
 
         img1.onload = function () {
+            console.log("loaded")
             ctx.drawImage(img1, canvasWidth - img1.width, canvasHeight - img1.height, img1.width, img1.height);
         };
 

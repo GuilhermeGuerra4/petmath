@@ -3,6 +3,12 @@ import Pet from "./../components/Pet";
 
 export default function Question(){
 
+    const [currentQuestion, setCurrentQuestion] = useState({
+        choices: ['','','','']
+    });
+
+    const [coins, setCoins] = useState(0);
+
     function generateRandomNumber(min, max){
         return Math.floor(Math.random() * (max-min) + min);
     }
@@ -49,6 +55,7 @@ export default function Question(){
         choices.push(generateRandomNumber(0, 20));
         choices.push(generateRandomNumber(0, 20));
         choices.push(generateRandomNumber(0, 20));
+        choices.sort(() => Math.random() - 0.5);
 
         let question = "How much is "+num1+symbol+num2+"?";
 
@@ -62,19 +69,20 @@ export default function Question(){
 
     function chooseOption(choosedAnswer){
         if(choosedAnswer === currentQuestion.result){
-            setCoins({coins: coins+10});
+            setCoins(coins+10);
+            let question = generateQuestion();
+            setCurrentQuestion(question);
         }
     }
 
-    const [currentQuestion, setCurrentQuestion] = useState({});
-    const [coins, setCoins] = useState(0);
-
     useEffect(() => {
-        setCurrentQuestion(generateQuestion());
+        let question = generateQuestion();
+        setCurrentQuestion(question);
     }, []);
 
     return(
         <div style={styles.mainContainer}>
+
             <header style={styles.header}>
                 <div style={styles.logo}>
                     <span>NumberPets</span>
@@ -86,21 +94,21 @@ export default function Question(){
 
             <div className="container" style={styles.container}>
                 <div style={styles.questionBox}>
-                    <p style={styles.questionText}>{currentQuestion[0]?.question}</p>
+                    <p style={styles.questionText}>{currentQuestion.question}</p>
                 </div>
 
                 <div style={styles.choiceBox}>
-                    <div onClick={() => chooseOption(currentQuestion[0]?.choices[0])} className="choice-button" style={styles.choiceItem}>
-                        <div style={styles.choiceItemText}>{currentQuestion[0]?.choices[0]}</div>
+                    <div onClick={() => chooseOption(currentQuestion.choices[0])} className="choice-button" style={styles.choiceItem}>
+                        <div style={styles.choiceItemText}>{currentQuestion.choices[0]}</div>
                     </div>
-                    <div onClick={() => chooseOption(currentQuestion[0]?.choices[1])} className="choice-button" style={styles.choiceItem}>
-                        <div style={styles.choiceItemText}>{currentQuestion[0]?.choices[1]}</div>
+                    <div onClick={() => chooseOption(currentQuestion.choices[1])} className="choice-button" style={styles.choiceItem}>
+                        <div style={styles.choiceItemText}>{currentQuestion.choices[1]}</div>
                     </div>
-                    <div onClick={() => chooseOption(currentQuestion[0]?.choices[2])} className="choice-button" style={styles.choiceItem}>
-                        <div style={styles.choiceItemText}>{currentQuestion[0]?.choices[2]}</div>
+                    <div onClick={() => chooseOption(currentQuestion.choices[2])} className="choice-button" style={styles.choiceItem}>
+                        <div style={styles.choiceItemText}>{currentQuestion.choices[2]}</div>
                     </div>
-                    <div onClick={() => chooseOption(currentQuestion[0]?.choices[3])} className="choice-button" style={styles.choiceItem}>
-                        <div style={styles.choiceItemText}>{currentQuestion[0]?.choices[3]}</div>
+                    <div onClick={() => chooseOption(currentQuestion.choices[3])} className="choice-button" style={styles.choiceItem}>
+                        <div style={styles.choiceItemText}>{currentQuestion.choices[3]}</div>
                     </div>
                 </div>  
             </div>
@@ -113,12 +121,30 @@ export default function Question(){
 }
 
 const styles = {
+    innerWindow: {
+        position: "absolute",
+        width: 250,
+        height: 150,
+        backgroundColor: "#fff",
+        left: "50%",
+        top: "30%",
+        marginLeft: -125,
+        zIndex:6,
+    },
+    popupWindow: {
+        position: "fixed",
+        width: "100%",
+        height: "100vh",
+        backgroundColor: "#000",
+        opacity: 0.8,
+        zIndex: 4,
+    },
     mainContainer: {
         
     },
     pet: {
         position: "absolute",
-        right: 10,
+        right: 100,
         bottom: 0,
     },
     header: {
@@ -154,9 +180,9 @@ const styles = {
         alignItems: "center",
     },
     choiceItem: {
-        width: "45%",
-        height: 60,
-        margin: 20,
+        width: "48%",
+        height: 100,
+        margin: 5,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -170,7 +196,7 @@ const styles = {
     },
     questionBox: {
         width: "100%",
-        height: 200,
+        height: 300,
         textAlign: "center",
         display: "flex",
         justifyContent: "center",
