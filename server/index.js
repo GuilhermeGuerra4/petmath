@@ -1,5 +1,7 @@
 import express from 'express';
 import { config } from 'dotenv';
+import { connect } from './config/database.js';
+connect(); 
 config();
 
 const { API_PORT } = process.env;
