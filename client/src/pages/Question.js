@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Pet from "./../components/Pet";
 
-export default function Question(){
+export default function Question() {
 
-    function generateRandomNumber(min, max){
-        return Math.floor(Math.random() * (max-min) + min);
+    function generateRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
     }
 
-    function generateQuestion(){
+    function generateQuestion() {
         let operationType = generateRandomNumber(1, 4);
         let num1 = 0;
         let num2 = 0;
@@ -15,34 +15,34 @@ export default function Question(){
         let result = 0;
         let choices = [];
 
-        switch(operationType){
+        switch (operationType) {
             // addition
             case 1:
                 num1 = generateRandomNumber(0, 20);
                 num2 = generateRandomNumber(0, 20);
                 symbol = "+";
-                result = num1+num2;
-            break;
+                result = num1 + num2;
+                break;
             case 2:
                 num1 = generateRandomNumber(0, 20);
                 num2 = generateRandomNumber(0, 20);
                 symbol = "-";
-                result = num1-num2;
-            break;
+                result = num1 - num2;
+                break;
             case 3:
                 num1 = generateRandomNumber(0, 5);
                 num2 = generateRandomNumber(0, 5);
                 symbol = "x";
-                result = num1*num2;
-            break;
+                result = num1 * num2;
+                break;
             case 4:
                 num1 = generateRandomNumber(1, 4);
                 num2 = generateRandomNumber(1, 4);
                 symbol = "/";
-                result = num1/num2;
-            break;
+                result = num1 / num2;
+                break;
             default:
-            break;
+                break;
         }
 
         choices.push(result);
@@ -50,7 +50,7 @@ export default function Question(){
         choices.push(generateRandomNumber(0, 20));
         choices.push(generateRandomNumber(0, 20));
 
-        let question = "How much is "+num1+symbol+num2+"?";
+        let question = "How much is " + num1 + symbol + num2 + "?";
 
         return {
             question,
@@ -60,9 +60,9 @@ export default function Question(){
         };
     }
 
-    function chooseOption(choosedAnswer){
-        if(choosedAnswer === currentQuestion.result){
-            setCoins({coins: coins+10});
+    function chooseOption(choosedAnswer) {
+        if (choosedAnswer === currentQuestion.result) {
+            setCoins({ coins: coins + 10 });
         }
     }
 
@@ -73,7 +73,7 @@ export default function Question(){
         setCurrentQuestion(generateQuestion());
     }, []);
 
-    return(
+    return (
         <div style={styles.mainContainer}>
             <header style={styles.header}>
                 <div style={styles.logo}>
@@ -102,11 +102,11 @@ export default function Question(){
                     <div onClick={() => chooseOption(currentQuestion[0]?.choices[3])} className="choice-button" style={styles.choiceItem}>
                         <div style={styles.choiceItemText}>{currentQuestion[0]?.choices[3]}</div>
                     </div>
-                </div>  
+                </div>
             </div>
 
             <aside style={styles.pet}>
-                <Pet toy={"dog_toy"} hat={"snake_hat"} type={'dog'}/>
+                <Pet toy={"dog_toy"} hat={"snake_hat"} type={'dog'} />
             </aside>
         </div>
     );
@@ -114,7 +114,7 @@ export default function Question(){
 
 const styles = {
     mainContainer: {
-        
+
     },
     pet: {
         position: "absolute",
@@ -152,6 +152,7 @@ const styles = {
         width: 100,
         justifyContent: "center",
         alignItems: "center",
+        borderRadius: 5,
     },
     choiceItem: {
         width: "45%",
@@ -160,13 +161,15 @@ const styles = {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "blue",
+        backgroundColor: "#c9aee6",
         cursor: "pointer",
+        borderRadius: 15,
     },
     choiceBox: {
         padding: 20,
         display: "flex",
         flexWrap: "wrap-reverse",
+
     },
     questionBox: {
         width: "100%",
@@ -174,8 +177,9 @@ const styles = {
         textAlign: "center",
         display: "flex",
         justifyContent: "center",
-        alignItems:"center",
-        backgroundColor: "#ddd",
+        alignItems: "center",
+        backgroundColor: "#f5f5f5",
+        borderRadius: 15,
     },
     questionText: {
         fontSize: 25,
