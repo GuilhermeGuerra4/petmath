@@ -1,7 +1,32 @@
 import React, { useEffect, useState } from "react";
 import Pet from "./../components/Pet";
+import useSound from "use-sound";
+import Confetti from 'react-dom-confetti';
+
+import winningSong from "../sounds/winning-song.wav";
+import losingSong from "../sounds/losing-song.wav";
+import soundtrack from "../sounds/soundtrack.mp3";
 
 export default function Question() {
+
+    const config = {
+        angle: 180,
+        spread: 1000,
+        startVelocity: 40,
+        elementCount: 270,
+        dragFriction: 0.12,
+        duration: 5000,
+        stagger: 3,
+        width: "10px",
+        height: "10px",
+        perspective: "500px",
+        colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+    };
+
+    const [confettiActivated, setConfettiActivated] = useState(false);
+    const [playSoundtrack, {stopSoundtrack}] = useSound(soundtrack, {volume: 0.3});
+    const [playWinningSong] = useSound(winningSong);
+    const [playLosingSong] = useSound(losingSong);
 
     const [currentQuestion, setCurrentQuestion] = useState({
         choices: ['','','','']
@@ -87,6 +112,8 @@ export default function Question() {
     function chooseOption(choosedAnswer) {
         if (choosedAnswer === currentQuestion.result) {
             setCoins(coins + 10);
+            playWinningSong();
+            setConfettiActivated(true);
             setMessage(
                 <div style={styles.messageText}>
                     <p style={styles.marginTop}>Well done</p>
@@ -100,6 +127,7 @@ export default function Question() {
             setShowPopup(true); 
         }
         else{
+            playLosingSong();
             setMessage(
                 <div style={styles.messageText}>
                     <p style={styles.marginTop}>Try Again</p>
@@ -114,6 +142,7 @@ export default function Question() {
     function loadNextQuestion(){
         let question = generateQuestion();
         setCurrentQuestion(question);
+        setConfettiActivated(false);
         setShowPopup(false);
     }
 
@@ -134,8 +163,20 @@ export default function Question() {
 
                 <div style={styles.popupWindow}></div>
 
+
                 </>) : (<></>)
             }
+
+            <div style={{
+                position: "fixed",
+                width: 500,
+                height: 500,
+                zIndex: 10,
+                left: "50%",
+                marginLeft: 150,
+            }}>
+                <Confetti active={confettiActivated} config={ config }/>
+            </div>
 
             <header style={styles.header}>
                 <div style={styles.logo}>
@@ -169,8 +210,10 @@ export default function Question() {
             </div>
 
             <aside style={styles.pet}>
-                <Pet toy={"dog_toy"} hat={"snake_hat"} type={'cat'} />
+                <Pet toy={"dog_toy"} hat={"snake_hat"} type={'dog'} />
             </aside>
+
+            
         </div>
     );
 }
