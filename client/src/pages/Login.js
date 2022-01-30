@@ -25,10 +25,10 @@ return (
     <GoogleLogin
       clientId={clientId}
       buttonText='Login'
-      onSuccess={onSuccess}
       onFailure={onFailure}
       cookiePolicy={'single_host_origin'}
       isSignedIn={true}
+      className='btn'
     />
   </div>
   </>
