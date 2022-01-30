@@ -25,10 +25,10 @@ export default function Pet(props) {
                 size = 100;
             break;
             case 'snake':
-                size = 100; 
+                size = 50; 
             break;
             case 'cat':
-                size = 60; 
+                size = 100; 
             break;
             default:
             break;
@@ -45,10 +45,10 @@ export default function Pet(props) {
                 pos = {x: 74, y: 100};
             break;
             case 'snake':
-                pos = {x: 74, y: 100};
+                pos = {x: 190, y: 120};
             break;
             case 'cat':
-                pos = {x: 22, y: 55};
+                pos = {x: 30, y: 100};
             break;
             default:
             break;
@@ -59,50 +59,51 @@ export default function Pet(props) {
 
     React.useEffect(() => {
 
+        function draw(){
 
-        let c = document.getElementById("canvas");
-        let ctx = c.getContext("2d");
+            let c = document.getElementById("canvas");
+            let ctx = c.getContext("2d");
 
-        let canvasWidth = ctx.canvas.width;
-        let canvasHeight = ctx.canvas.height;
+            let canvasWidth = ctx.canvas.width;
+            let canvasHeight = ctx.canvas.height;
+            
+            let img1 = new Image();
+            img1.src = 'images/'+props.type+'.png';
+            
+            img1.height = 360;
+            img1.width = img1.height * calculateProportion(img1);
 
-        let img1 = new Image();
-        img1.src = 'images/'+props.type+'.png';
-        
-        img1.height = 360;
-        img1.width = img1.height * calculateProportion(img1);
-
-        img1.onload = function () {
-            ctx.drawImage(img1, canvasWidth - img1.width, canvasHeight - img1.height, img1.width, img1.height);
-        };
-
-        // hat
-        if(props.hat !== false){
-            let hatImage = new Image();
-            hatImage.src = 'images/'+props.hat+'.png';
-            let hatProportion = calculateProportion(hatImage);
-            hatImage.height = getHatSize(props.type);
-            hatImage.width = hatImage.height / hatProportion;
-            let hatPost = getHatPosition(props.type);
-            hatImage.onload = function () {
-                ctx.drawImage(hatImage, hatPost.x, hatPost.y, hatImage.width, hatImage.height);
+            img1.onload = function () {
+                console.log("loaded")
+                ctx.drawImage(img1, canvasWidth - img1.width, canvasHeight - img1.height, img1.width, img1.height);
             };
+
+            // hat
+            if(props.hat !== false){
+                let hatImage = new Image();
+                hatImage.src = 'images/'+props.hat+'.png';
+                let hatProportion = calculateProportion(hatImage);
+                hatImage.height = getHatSize(props.type);
+                hatImage.width = hatImage.height / hatProportion;
+                let hatPost = getHatPosition(props.type);
+                hatImage.onload = function () {
+                    ctx.drawImage(hatImage, hatPost.x, hatPost.y, hatImage.width, hatImage.height);
+                };
+            }            
         }
 
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    }, []);
+        draw();
+    });
 
   
 
   return (
-    <div>
-      <canvas
-        id="canvas"
-        width={canvasWidth}
-        height={canvasHeight}
-        style={{ border: "1px solid #fff" }}>
-        Your browser does not support the HTML canvas tag.
-      </canvas>
-    </div>
+        <div>
+            <canvas
+                id="canvas"
+                width={canvasWidth}
+                height={canvasHeight}>
+            </canvas>
+        </div>
   );
 }
