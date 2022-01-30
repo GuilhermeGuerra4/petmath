@@ -1,11 +1,11 @@
 import express from 'express';
-import { getQuestions } from '../controllers/question.js'
-import { getAnswers } from '../controllers/answer.js'
+import { getUsers } from '../controllers/user.js';
+
 
 const router = express.Router();
 
-router.get("/questions", getQuestions);
-router.get("/answers", getAnswers);
+router.get("/users", getUsers);
+
 
 
 export default router;
