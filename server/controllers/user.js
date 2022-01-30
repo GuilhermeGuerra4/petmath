@@ -12,3 +12,14 @@ export const getUsers = async (req,res) => {
       console.log(err)
     }
 }
+
+export const updateUsers = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  })
+    return success(res, user)
+  } catch (err) {
+    console.log(err)
+  }
+}
