@@ -29,6 +29,7 @@ return (
       onFailure={onFailure}
       cookiePolicy={'single_host_origin'}
       isSignedIn={true}
+      className='btn'
     />
   </div>
   </>
