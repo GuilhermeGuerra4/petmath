@@ -8,7 +8,7 @@ const Login = () => {
   const clientId = '304039575923-obgs1220fde6a1vrgkcfp8c1lmocrfnr.apps.googleusercontent.com';
 
   const onSuccess = (res) => {
-    navigate(`/`);
+    navigate(`/questions`);
 }
 
 const onFailure = (res) => {
